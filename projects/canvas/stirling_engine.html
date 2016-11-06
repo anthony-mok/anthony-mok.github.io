@@ -1,0 +1,231 @@
+<html>
+<head>
+<title>Stirling Engine</title>
+<style type="text/css">
+	body {
+		font-family: Verdana;
+		font-size: 11px;
+	}
+	input {
+		height: 30px;
+	}
+	#example {
+		border: solid 1px #888;
+	}
+	#control_box {
+		border: solid 1px #888;
+		border-left: 0px;
+		background: #DDD;
+		height: 400px;
+	}
+	#control_box label  {
+		display: inline-block;
+		width: 80px;
+		vertical-align: top;
+	}
+	#control_box ul {
+		margin-left: 0px;
+		padding: 5px 10px;
+		list-style: none;
+	}
+	#control_box li {
+		margin-bottom: 5px;
+	}
+	#control_box input[type="text"] {
+		width: 50px;
+		vertical-align: top;
+	}
+	#control_box input[type="text"].full {
+		width: 190px;
+		background: #FAFAFA;
+	}
+</style>
+</head>
+<body onload="load()">
+<canvas id="example" width="600" height="400">
+</canvas><div id="control_box" style="display: inline-block; vertical-align: top;">
+<ul>
+	<li>
+		<label>Flywheel Arm Radius:</label>
+		<input type="range" value=0.4 id="r1" min=0.01 step=0.01 max=5.0 onChange="document.getElementById('r').value = this.value; updateParameters();"/>
+		<input type="text" id="r" value="0.4" onChange="document.getElementById('r1').value = this.value; updateParameters();">
+	</li>
+	<li>
+		<label style="color: #00AA00">Displacer Arm Length:</label>
+		<input type="range" value=1 id="b1" min=0.01 step=0.01 max=5.0 onChange="document.getElementById('b').value = this.value; updateParameters();"/>
+		<input type="text" id="b" value="1" onChange="document.getElementById('b1').value = this.value; updateParameters();">
+	</li>
+	<li>
+		<label style="color: #FF00DC">(Power) Piston Width:</label>
+		<input type="range" value=0.25 id="w1" min=0.01 step=0.01 max=5.0 onChange="document.getElementById('w').value = this.value; updateParameters();"/>
+		<input type="text" id="w" value="0.25" onChange="document.getElementById('w1').value = this.value; updateParameters();">
+	</li>
+	<li>
+		<label style="color: #0026FF">Displacer Length:</label>
+		<input type="range" value=1 id="p1" min=0.01 step=0.01 max=5.0 onChange="document.getElementById('p').value = this.value; updateParameters();"/>
+		<input type="text" id="p" value="1" onChange="document.getElementById('p1').value = this.value; updateParameters();">
+	</li>
+	<li><label style="color: #FF00DC">Piston Arm Length:</label><input class="full" type="text" id="g" value="-" readonly="readonly"></li>
+	<li><label style="color: #0026FF">Displacer Rod Length:</label><input class="full" type="text" id="f" value="-" readonly="readonly"></li>
+	<li><label>Cylinder Length:</label><input type="text" id="case_length" value="-" class="full" readonly="readonly"></li>
+	<li><label>Animation Speed:</label><input type="range" value=6 id="anim_interval" min=0 max=9 onChange="updateParameters();"/></li>
+</li>
+</div>
+<script type="text/javascript">
+/* Sorry, this is really horrible and full of scratch-pad algebra which was
+ * far more readable on paper.
+ */
+var i = 0;
+var update_interval_in_ms = 100;
+var rotation_interval_in_s = 3;
+var overflow = rotation_interval_in_s*1000/update_interval_in_ms;
+
+var context;
+
+function load() {
+	context = example.getContext('2d');
+	setInterval(draw, update_interval_in_ms);
+}
+
+var w, r, b, p;
+refreshUserInput();
+var h = 0.75;
+var g = b + Math.sqrt(2)*r;
+
+var x0 = b-r*Math.sqrt(2);
+var x1 = Math.sqrt(x0*x0 + r*r - 2*r*x0*Math.cos(0.75*Math.PI)) - r;
+var theta1 = Math.PI - Math.acos((x0*x0 + (x1+r)*(x1+r) - r*r)/(2*x0*(x1+r)));
+var x_a = 1;
+var x_b = -2*x0*Math.cos(theta1);
+var x_c = x0*x0 - g*g;
+var f = (-x_b+Math.sqrt(x_b*x_b - 4*x_c))/2 + w;
+
+document.getElementById('g').value = g;
+document.getElementById('f').value = f;
+document.getElementById('case_length').value = (r - g) - (-r-b-f-p);
+var img_r = 530.0*(r/(r+r+b+f+p)); // auto-scale
+var img_p = img_r*p/r;
+var img_b = img_r*b/r;
+var img_f = img_r*f/r;
+var img_g = img_r*g/r;
+var img_w = img_r*w/r;
+var img_h = img_r*h/r;
+
+var c_x = 525;
+var c_y = 200;
+
+function updateParameters() {
+	refreshUserInput();
+	overflow = rotation_interval_in_s*1000/update_interval_in_ms;
+	g = b + Math.sqrt(2)*r;
+	
+	var x0 = b-r*Math.sqrt(2);
+	var x1 = Math.sqrt(x0*x0 + r*r - 2*r*x0*Math.cos(0.75*Math.PI)) - r;
+	var theta1 = Math.PI - Math.acos((x0*x0 + (x1+r)*(x1+r) - r*r)/(2*x0*(x1+r)));
+	var x_a = 1;
+	var x_b = -2*x0*Math.cos(theta1);
+	var x_c = x0*x0 - g*g;
+	f = (-x_b+Math.sqrt(x_b*x_b - 4*x_c))/2 + w;
+	document.getElementById('g').value = g;
+	document.getElementById('f').value = f;
+	document.getElementById('case_length').value = (r - g) - (-r-b-f-p);
+	img_r = 530.0*(r/(r+r+b+f+p));
+	img_p = img_r*p/r;
+	img_b = img_r*b/r;
+	img_f = img_r*f/r;
+	img_g = img_r*g/r;
+	img_w = img_r*w/r;
+}
+
+function refreshUserInput() {
+	w = parseFloat(document.getElementById('w').value);
+	r = parseFloat(document.getElementById('r').value);
+	b = parseFloat(document.getElementById('b').value);
+	p = parseFloat(document.getElementById('p').value);
+	rotation_interval_in_s = 10 - parseInt(document.getElementById('anim_interval').value);
+}
+
+function draw() {
+	i = (i + 1) % overflow;
+	var b_theta = 2*Math.PI*((i+0.0)/overflow);
+
+	context.clearRect ( 0 , 0 , 600 , 600 );
+	drawWheel(b_theta);
+	drawPiston(b_theta);
+	drawDisplacer(b_theta);
+	drawCasing();
+}
+
+function drawCasing() {
+	context.beginPath();
+	context.strokeStyle = '#000000';
+	context.moveTo(c_x + img_r - img_g + 4, c_y - img_h/2.0 - 1);
+	context.lineTo(c_x - img_r - img_b - img_f - img_p - 4, c_y - img_h/2.0 - 1);
+	context.lineTo(c_x - img_r - img_b - img_f - img_p - 4, c_y + img_h/2.0 + 1);
+	context.lineTo(c_x + img_r - img_g + 4, c_y + img_h/2.0 + 1);
+	context.stroke();
+}
+
+function drawDisplacer(theta) {
+	var b_x = Math.cos(theta)*img_r;
+	var b_y = Math.sin(theta)*img_r;
+
+	// Draw displacer arm
+	context.beginPath();
+	context.strokeStyle = '#00AA00';
+	context.moveTo( c_x, c_y);
+	context.lineTo( c_x + b_x,
+					c_y + b_y);
+	context.lineTo( c_x + b_x - (Math.sqrt(img_b*img_b - b_y*b_y)),
+					c_y);
+	context.stroke();
+
+	// Draw displacer
+	context.strokeStyle = '#0026FF';
+	context.beginPath();
+	var f_x =  b_x - (Math.sqrt(img_b*img_b - b_y*b_y));
+	context.moveTo( c_x + f_x,
+					c_y);
+	context.lineTo( c_x + f_x - img_f,
+					c_y);
+	context.closePath();
+	context.stroke();
+
+	context.strokeRect( c_x + f_x - img_f - img_p,
+						c_y - 0.8*img_h/2,
+						img_p - 1,
+						0.8*img_h);
+}
+
+function drawPiston(theta) {
+	var g_x = Math.cos(theta-0.5*Math.PI)*img_r;
+	var g_y = Math.sin(theta-0.5*Math.PI)*img_r;
+	var g_l = Math.sqrt(img_g*img_g - g_y*g_y);
+
+	// Draw piston arm
+	context.strokeStyle = '#FF00DC';
+	context.beginPath();
+	context.moveTo( c_x, c_y);
+	context.lineTo( c_x + g_x,
+					c_y + g_y);
+	context.lineTo( c_x + g_x - g_l,
+					c_y);
+	context.stroke();
+
+	// Draw piston
+	context.strokeRect( c_x + g_x - g_l - img_w,
+						c_y - img_h/2,
+						img_w - 1,
+						img_h);
+}
+
+function drawWheel(theta) {
+	context.beginPath();
+	context.arc(c_x, c_y, img_r, 0, Math.PI*2, true); 
+	context.closePath();
+	context.stroke();
+}
+
+</script>
+</body>
+</html>

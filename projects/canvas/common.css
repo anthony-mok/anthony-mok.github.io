@@ -1,0 +1,41 @@
+body {
+	text-align: center;
+}
+#canvas {
+	margin: 0 auto;
+	border: solid 1px black;
+	WIDTH: 600px;
+}
+#controls {
+	font-family: Helvetica, Verdana;
+	margin: 0 auto;
+	WIDTH: 598px;
+	background: #CCCCCC;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#999));
+	background: -moz-linear-gradient(top,  #ccc,  #999);
+	border: solid 1px #555;
+}
+#controls input[type="number"] {
+	WIDTH: 60px;
+}
+#controls input {
+	text-align: center;
+}
+#controls button {
+	border: 0;
+	border-radius: 3px;
+	background: #444444;
+	color: white;
+	padding: 4px 6px;
+	font-weight: bold;
+	margin: 5px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#acf), to(#06a));
+	background: -moz-linear-gradient(top,  #acf,  #06a);
+	border: solid 1px #06a;
+	border-bottom: solid 1px #acf;
+	border-right: solid 1px #acf;
+}
+#controls button:hover {
+	cursor: pointer;
+	background: #27c;
+}
