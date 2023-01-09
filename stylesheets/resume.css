@@ -1,5 +1,41 @@
+:root {
+  color-scheme: light dark;
+  --primary-background: #718CB7;
+  --primary-text: #FFFFFF;
+  --secondary-background: #FFFFFF;
+  --secondary-text: #000000;
+  --secondary-accent: #3B5789;
+  --secondary-link: #114499;
+  --secondary-quiet: #777777;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+  --primary-background: #718CB7;
+  --primary-text: #FFFFFF;
+  --secondary-background: #FFFFFF;
+  --secondary-text: #000000;
+  --secondary-accent: #3B5789;
+  --secondary-link: #114499;
+  --secondary-quiet: #777777;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+  --primary-background: #000000;
+  --primary-text: #718CB7;
+  --secondary-background: #192537;
+  --secondary-text: #CCCCCC;
+  --secondary-accent: #718CB7;
+  --secondary-link: #718CB7;
+  --secondary-quiet: #999999;
+  }
+}
+
 body {
-	background: #718CB7;
+	background: var(--primary-background);
+	color: var(--secondary-text);
 	margin: 0;
 	padding: 0;
 	font-family: Helvetica, Arial;
@@ -15,31 +51,27 @@ img {
 	border-style: none;
 }
 #outer {
-	margin: 0 auto;
-	max-width: 1100px;
-	width: 100%;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 2fr 5fr 1fr;
+	gap: 1em;
 }
 header {
-	display: inline-block;
-	margin: 0.5%;
-	max-width: 300px;
-	text-align: center;
-	vertical-align: top;
-	width: 22%;
+	grid-column: 1;
+	text-align: right;
 }
 	header .inner {
-		background: #FFFFFF;
-		max-width: 21%;
-		padding: 0.5%;
-		position: fixed;
+		background: var(--secondary-background);
+		padding: 1em;
+		position: sticky;
+		display: inline-block;
+		text-align: center;
+		top: 1em;
 	}
 #content {
-	background: #FFFFFF;
+	grid-column: 2;
+	background: var(--secondary-background);
 	display: inline-block;
-	margin-right: 5%;
-	max-width: 800px;
-	vertical-align: top;
-	width: 69%;
 }
 nav {
 	text-align: left;
@@ -52,18 +84,18 @@ h1 {
 	padding: 0;
 }
 h2 {
-	background: #718CB7;
-	color: white;
+	background: var(--primary-background);
+	color: var(--primary-text);
 	display: block;
 	font-size: large;
-	padding: 3px 5px;
+	padding: 0.25em 0.4em;
 	text-transform: uppercase;
 }
 	h2:first-letter {
 		font-size: 1.1em;
 	}
 h3 {
-	color: #3B5789;
+	color: var(--secondary-accent);
 	font-size: medium;
 	margin: 0;
 	padding: 0;
@@ -78,7 +110,7 @@ ul {
 	margin: 0;
 }
 a:link, a:visited {
-	color: #114499;
+	color: var(--secondary-link);
 	text-decoration: none;
 }
 a.contact {
@@ -100,9 +132,9 @@ li, article {
 	top: 4em;
 }
 .datetime, .technologies {
-	color: #777777;
+	color: var(--secondary-quiet);
 	font-size: x-small;
-	padding: 3px 5px;
+	padding: 0.25em 0;
 	position: absolute;
 	right: 70%;
 }
@@ -114,7 +146,7 @@ article {
 	margin-bottom: 0.5em;
 	text-align: right;
 	min-height: 2em;
-	width: 100%;
+	width: auto;
 }
 	article h3 {
 		display: inline-block;
@@ -151,5 +183,54 @@ article {
 			display: block;
 		}
 #employment article {
-	min-height: 100px;
+	min-height: 5em;
+}
+
+@media (max-width: 1024px) {
+	body {
+		background: var(--secondary-background);
+	}
+	#outer {
+		display: block;
+	}
+		header .inner {
+			width: 100%;
+			padding: 0;
+			margin: 0;
+			text-align: center;
+			top: 1em;
+		}
+		header .inner nav {
+			display: none;
+		}
+}
+
+@media (max-width: 600px) {
+	article {
+		text-align: left;
+		padding: 0.25em 0.5em;
+		margin-bottom: 0.25em;
+	}
+		article h3 {
+			display: block;
+			width: auto;
+			float: none;
+		}
+		article h4, article ul {
+			display: block;
+			text-align: left;
+			width: auto;
+		}
+			article:hover .address, article:hover .icon {
+				display: none;
+			}
+	.datetime, .technologies {
+		right: 0;
+		position: inherit;
+display: inline-block;
+text-align: left;
+	}
+	#employment article {
+		min-height: 4em;
+	}
 }

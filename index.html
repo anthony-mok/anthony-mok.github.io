@@ -1,68 +1,83 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WebCanvas Experiments</title>
-	<link rel="stylesheet" type="text/css" href="common.css" />
+	<link rel="stylesheet" type="text/css" href="stylesheets/common.css" />
 	<style type="text/css">
-		body {
-			text-align: left;
-			background-color: #eee;
-			font-family: Helvetica;
+		.wrapper {
+			height: 100vh;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			grid-auto-rows: minmax(100px, auto);
 		}
-		#content {
-			margin: 0 auto;
-			margin-top: 70px;
-			width: 352px;
+		.content {
+			grid-column: 2;
+			grid-row: 2 / 7;
 		}
-		header, footer {
-			font-size: 20px;
-			font-weight: bold;
-			display: block;
-			margin: 0;
-			width: 332px;
+		header {
+			margin-right: var(--blub);
 		}
-			header {
-				border-bottom: solid 4px #555;
-				text-align: left;
-			}
-			footer {
-				margin-left: 20px;
-				border-top: solid 4px #555;
-				text-align: right;
-			}
+		footer {
+			margin-left: var(--blub);
+			text-align: right;
+		}
+
 		ul {
 			list-style: none;
-			margin-left: 0;
-			padding-left: 0;
+			margin: 0;
+			padding: 1.5em var(--blub);
 		}
-		li {
-			margin-left: 20px;
+		ul li {
+			margin: 0;
 		}
 		ul a {
 			display: block;
-			border: solid 1px #000;
-			width: 300px;
-			margin: 5px 0;
-			padding: 5px;
+			border: solid 1px var(--border);
+			margin: 0.4em 0;
+			padding: 0.25em 0.5em;
 			text-decoration: none;
-			color: #eee;
-			background-color: #555;
+			color: var(--background);
+			background-color: var(--border-secondary);
 		}
-			ul a:hover {
-			background-color: #000;
+		ul a:hover {
+			background-color: var(--border);
+		}
+
+		aside time {
+			opacity: 0.7;
+			display: block;
+			margin: 0.5em 0;
+			font-size: 0.8em;
+		}
+		@media (max-width: 1024px) {
+			.wrapper {
+				grid-template-columns: 25% 1fr 25%;
 			}
-		footer a {
-			color: black;
+		}
+		@media (max-width: 600px) {
+			.wrapper {
+				grid-template-columns: 15% 1fr 15%;
+			}
+		}
+		@media (max-width: 480px) {
+			.wrapper {
+				grid-template-columns: 0% 1fr 0%;
+			}
 		}
 	</style>
 </head>
 <body>
-<div id="content">
-<header>WebCanvas Experiments</header>
-<ul>
-	<li><a href="projects/canvas/stirling_engine.html">Stirling Engine</a></li>
-	<li><a href="projects/canvas/tetris.html">Tetrominoes</a></li>
-</ul>
-<footer><a href="resume.html">Anthony Mok [CV]</a></footer>
+<div class="wrapper">
+	<article class="content">
+		<header><h1>WebCanvas Experiments</h1></header>
+		<ul>
+			<li><a href="projects/canvas/stirling_engine.html">Stirling Engine</a></li>
+			<li><a href="projects/canvas/tetris.html">Tetrominoes</a></li>
+		</ul>
+		<footer><a href="resume.html">Anthony Mok [CV]</a></footer>
+	</article>
 </div>
 </body>
 </html>

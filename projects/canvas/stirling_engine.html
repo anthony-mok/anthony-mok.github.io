@@ -1,47 +1,108 @@
 <html>
 <head>
 <title>Stirling Engine</title>
+	<link rel="stylesheet" type="text/css" href="../../stylesheets/common.css" />
 <style type="text/css">
-	body {
-		font-family: Verdana;
-		font-size: 11px;
-	}
-	input {
-		height: 30px;
-	}
 	#example {
-		border: solid 1px #888;
+		grid-column: 2;
+		grid-row: 2;
 	}
 	#control_box {
-		border: solid 1px #888;
-		border-left: 0px;
-		background: #DDD;
-		height: 400px;
-	}
-	#control_box label  {
-		display: inline-block;
-		width: 80px;
-		vertical-align: top;
+		grid-row: 2;
+		grid-column: 3;
+		border: solid 1px var(--border-secondary);
+		background: var(--background-secondary);
 	}
 	#control_box ul {
 		margin-left: 0px;
 		padding: 5px 10px;
 		list-style: none;
 	}
+
 	#control_box li {
+		display: grid;
+		grid-template-columns: 2fr 3fr 1fr;
 		margin-bottom: 5px;
 	}
+	#control_box label	{
+		display: inline-block;
+		grid-column: 1;
+		vertical-align: top;
+	}
+	#control_box input[type="range"] {
+		grid-column: 2;
+		margin: 0 auto;
+	}
 	#control_box input[type="text"] {
-		width: 50px;
+		grid-column: 3;
+		height: 2em;
+		width: 100%;
 		vertical-align: top;
 	}
 	#control_box input[type="text"].full {
-		width: 190px;
-		background: #FAFAFA;
+		grid-column: 2 / 4;
+		background: var(--background);
+	}
+
+	.wrapper {
+		height: 50vh;
+		display: grid;
+		grid-template-columns: 1fr 3fr 2fr 1fr;
+		grid-auto-rows: minmax(auto);
+		gap: 1em 0;
+	}
+	header {
+		grid-row: 1;
+		grid-column: 2 / 4;
+	}
+	aside {
+		grid-row: 2;
+		grid-column: 4;
+		padding: 0 1em;
+	}
+
+	@media (max-width: 1024px) {
+		.wrapper {
+				grid-template-columns: 15% 1fr 15%;
+		}
+		header {
+			grid-column: 2;
+			}
+		#example {
+			grid-column: 2;
+			grid-row: 2;
+			min-height: 10em;
+		}
+		#control_box {
+			grid-column: 2;
+			grid-row: 3;
+		}
+		aside {
+			grid-column: 2;
+			grid-row: 4;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.wrapper {
+			grid-template-columns: 10% 1fr 10%;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.wrapper {
+			grid-template-columns: 5% 1fr 5%;
+		}
 	}
 </style>
 </head>
-<body onload="load()">
+<body onload="load()" onresize="resizeCanvas()">
+
+<div class="wrapper">
+<header>
+<h1>Stirling Engine</h1>
+</header>
+
 <canvas id="example" width="600" height="400">
 </canvas><div id="control_box" style="display: inline-block; vertical-align: top;">
 <ul>
@@ -71,6 +132,12 @@
 	<li><label>Animation Speed:</label><input type="range" value=6 id="anim_interval" min=0 max=9 onChange="updateParameters();"/></li>
 </li>
 </div>
+<aside>
+A quick and ugly JavaScript diagram I threw together based on some <a href="images/stirling-engine-calculations.png" target="_blank" rel="noopener noreferrer">napkin calculations</a> to help a friend calculate measurements for their real-life build.
+
+<time datetime="2012-03-16T11:06+08:00">2012-03-16</time>
+</aside>
+</div>
 <script type="text/javascript">
 /* Sorry, this is really horrible and full of scratch-pad algebra which was
  * far more readable on paper.
@@ -79,13 +146,27 @@ var i = 0;
 var update_interval_in_ms = 100;
 var rotation_interval_in_s = 3;
 var overflow = rotation_interval_in_s*1000/update_interval_in_ms;
+var width_of_diagram_pct = 0.85;
 
 var context;
 
 function load() {
 	context = example.getContext('2d');
+	resizeCanvas();
 	setInterval(draw, update_interval_in_ms);
 }
+
+function resizeCanvas() {
+	// Make it visually fill the positioned parent
+	example.style.width ='100%';
+	example.style.height='100%';
+	// ...then set the internal size to match
+	example.width	= example.offsetWidth;
+	example.height = example.offsetHeight;
+	updateParameters();
+}
+
+var primaryColour = getComputedStyle(document.body).getPropertyValue('--primary');
 
 var w, r, b, p;
 refreshUserInput();
@@ -103,16 +184,11 @@ var f = (-x_b+Math.sqrt(x_b*x_b - 4*x_c))/2 + w;
 document.getElementById('g').value = g;
 document.getElementById('f').value = f;
 document.getElementById('case_length').value = (r - g) - (-r-b-f-p);
-var img_r = 530.0*(r/(r+r+b+f+p)); // auto-scale
-var img_p = img_r*p/r;
-var img_b = img_r*b/r;
-var img_f = img_r*f/r;
-var img_g = img_r*g/r;
-var img_w = img_r*w/r;
-var img_h = img_r*h/r;
 
-var c_x = 525;
-var c_y = 200;
+var img_r, img_p, img_b, img_f, img_g, img_w, img_h;
+var c_x, cy_;
+
+updateParameters();
 
 function updateParameters() {
 	refreshUserInput();
@@ -129,12 +205,18 @@ function updateParameters() {
 	document.getElementById('g').value = g;
 	document.getElementById('f').value = f;
 	document.getElementById('case_length').value = (r - g) - (-r-b-f-p);
-	img_r = 530.0*(r/(r+r+b+f+p));
+
+	var diagram_w = (example.width * width_of_diagram_pct);
+	img_r = diagram_w*(r/(r+r+b+f+p));
 	img_p = img_r*p/r;
 	img_b = img_r*b/r;
 	img_f = img_r*f/r;
 	img_g = img_r*g/r;
 	img_w = img_r*w/r;
+	img_h = img_r*h/r;
+
+	c_x = diagram_w - 5;
+	c_y = (example.height) / 2;
 }
 
 function refreshUserInput() {
@@ -149,7 +231,7 @@ function draw() {
 	i = (i + 1) % overflow;
 	var b_theta = 2*Math.PI*((i+0.0)/overflow);
 
-	context.clearRect ( 0 , 0 , 600 , 600 );
+	context.clearRect ( 0 , 0 , example.width , example.height );
 	drawWheel(b_theta);
 	drawPiston(b_theta);
 	drawDisplacer(b_theta);
@@ -158,7 +240,7 @@ function draw() {
 
 function drawCasing() {
 	context.beginPath();
-	context.strokeStyle = '#000000';
+	context.strokeStyle = primaryColour;
 	context.moveTo(c_x + img_r - img_g + 4, c_y - img_h/2.0 - 1);
 	context.lineTo(c_x - img_r - img_b - img_f - img_p - 4, c_y - img_h/2.0 - 1);
 	context.lineTo(c_x - img_r - img_b - img_f - img_p - 4, c_y + img_h/2.0 + 1);
@@ -183,7 +265,7 @@ function drawDisplacer(theta) {
 	// Draw displacer
 	context.strokeStyle = '#0026FF';
 	context.beginPath();
-	var f_x =  b_x - (Math.sqrt(img_b*img_b - b_y*b_y));
+	var f_x =	b_x - (Math.sqrt(img_b*img_b - b_y*b_y));
 	context.moveTo( c_x + f_x,
 					c_y);
 	context.lineTo( c_x + f_x - img_f,
