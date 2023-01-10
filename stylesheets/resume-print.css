@@ -28,7 +28,6 @@ header {
 	}
 #content {
 	background: #FFFFFF;
-	display: inline-block;
 	vertical-align: top;
 }
 
@@ -58,6 +57,12 @@ h4 {
 	margin: 0;
 	padding: 0;
 }
+h5 {
+	font-size: small;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
 ul {
 	font-size: small;
 	margin: 0;
@@ -78,7 +83,7 @@ li, article {
 	position: relative;
 }
 .address {
-	display: none;
+	display: none !important;
 	font-size: x-small;
 	position: absolute;
 	text-align: left;
@@ -88,8 +93,9 @@ li, article {
 	color: #555555;
 	font-size: x-small;
 	padding: 3px 5px;
-	position: absolute;
-	right: 70%;
+	display: inline-block;
+	text-align: left;
+	padding: 0;
 }
 .datetime {
 	text-transform: uppercase;
@@ -97,28 +103,29 @@ li, article {
 
 article {
 	margin-bottom: 0.5em;
-	text-align: right;
 	min-height: 2em;
-	width: 100%;
-	page-break-after: always;
 	page-break-inside: avoid;
+	width: 100%;
+	padding: 0.25em 1em;
+	margin-bottom: 0.25em;
 }
 	article h3 {
-		display: inline-block;
-		float: left;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		width: 30%;
+		display: block;
+		width: auto;
 	}
-	article h4, article ul {
-		display: inline-block;
+	article h4, article h5, article > ul {
+		display: block;
 		text-align: left;
-		width: 66%;
+	}
+	article h5 {
+		margin-top: 0.75em;
 	}
 	article ul {
 		margin-left: 0;
 		padding-left: 0;
+	}
+	article > ul {
+		margin-top: 0.5em;
 		padding-right: 3%;
 		width: 63%;
 	}
@@ -131,7 +138,7 @@ article {
 			display: block;
 		}
 	article .icon {
-		display: none;
+		display: none !important;
 		float: left;
 	}
 		article:hover .icon {
@@ -139,4 +146,7 @@ article {
 		}
 #employment article {
 	min-height: 100px;
+}
+span.caveat {
+	display: none;
 }

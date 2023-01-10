@@ -7,6 +7,8 @@
   --secondary-accent: #3B5789;
   --secondary-link: #114499;
   --secondary-quiet: #777777;
+  --heading-font: Righteous, Helvetica, Arial, sans;
+  --body-font: Jost, Helvetica, Arial, sans;
 }
 
 @media (prefers-color-scheme: light) {
@@ -27,9 +29,9 @@
   --primary-text: #718CB7;
   --secondary-background: #192537;
   --secondary-text: #CCCCCC;
-  --secondary-accent: #718CB7;
+  --secondary-accent: #57ACA4;
   --secondary-link: #718CB7;
-  --secondary-quiet: #999999;
+  --secondary-quiet: #CCCCCC;
   }
 }
 
@@ -38,11 +40,11 @@ body {
 	color: var(--secondary-text);
 	margin: 0;
 	padding: 0;
-	font-family: Helvetica, Arial;
+	font-family: var(--body-font);
 }
 header, footer, section, nav {
 	margin: 0;
-	padding: 5px;
+	padding: 0.25em;
 }
 section p {
 	margin: 0 2em;
@@ -75,19 +77,17 @@ header {
 }
 nav {
 	text-align: left;
-	font-size: small;
 }
 
 h1 {
-	font-size: xx-large;
 	margin: 0;
 	padding: 0;
+	font-family: var(--heading-font);
 }
 h2 {
 	background: var(--primary-background);
 	color: var(--primary-text);
 	display: block;
-	font-size: large;
 	padding: 0.25em 0.4em;
 	text-transform: uppercase;
 }
@@ -96,17 +96,19 @@ h2 {
 	}
 h3 {
 	color: var(--secondary-accent);
-	font-size: medium;
 	margin: 0;
 	padding: 0;
 }
 h4 {
-	font-size: small;
+	margin: 0;
+	padding: 0;
+}
+h5 {
+	font-weight: normal;
 	margin: 0;
 	padding: 0;
 }
 ul {
-	font-size: small;
 	margin: 0;
 }
 a:link, a:visited {
@@ -115,7 +117,6 @@ a:link, a:visited {
 }
 a.contact {
 	display: block;
-	font-size: small;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -126,14 +127,12 @@ li, article {
 }
 .address {
 	display: none;
-	font-size: x-small;
 	position: absolute;
 	text-align: left;
 	top: 4em;
 }
 .datetime, .technologies {
 	color: var(--secondary-quiet);
-	font-size: x-small;
 	padding: 0.25em 0;
 	position: absolute;
 	right: 70%;
@@ -156,14 +155,19 @@ article {
 		white-space: nowrap;
 		width: 30%;
 	}
-	article h4, article ul {
+	article h4, article h5, article > ul {
 		display: inline-block;
 		text-align: left;
 		width: 66%;
 	}
+	article h5 {
+		margin-top: 0.25em;
+	}
 	article ul {
 		margin-left: 0;
 		padding-left: 0;
+	}
+	article > ul {
 		padding-right: 3%;
 		width: 63%;
 	}
@@ -185,6 +189,29 @@ article {
 #employment article {
 	min-height: 5em;
 }
+span.caveat {
+	color: var(--secondary-accent);
+	opacity: 0.75;
+}
+
+h1 {
+	font-size: xx-large;
+}
+h2 {
+	font-size: large;
+}
+h3 {
+	font-size: medium;
+}
+h4, h5 {
+	font-size: small;
+}
+nav, ul, a.contact {
+	font-size: small;
+}
+.address, .datetime, .technologies {
+	font-size: x-small;
+}
 
 @media (max-width: 1024px) {
 	body {
@@ -203,6 +230,21 @@ article {
 		header .inner nav {
 			display: none;
 		}
+	body {
+		font-size: 2vw;
+	}
+	h1 {
+		font-size: 2.75vw;
+	}
+	h2, h3, h4, h5 {
+		font-size: 2vw;
+	}
+	ul, a.contact {
+		font-size: 1.7vw;
+	}
+	.datetime, .technologies, .address {
+		font-size: 1vw;
+	}
 }
 
 @media (max-width: 600px) {
@@ -216,10 +258,13 @@ article {
 			width: auto;
 			float: none;
 		}
-		article h4, article ul {
+		article h4, article h5, article ul {
 			display: block;
 			text-align: left;
 			width: auto;
+		}
+		article h5 {
+			margin-top: 0.75em;
 		}
 			article:hover .address, article:hover .icon {
 				display: none;
@@ -227,10 +272,29 @@ article {
 	.datetime, .technologies {
 		right: 0;
 		position: inherit;
-display: inline-block;
-text-align: left;
+		display: inline-block;
+		text-align: left;
+		padding: 0;
 	}
 	#employment article {
 		min-height: 4em;
+	}
+	body {
+		font-size: 2.75vw;
+	}
+	h1 {
+		font-size: 3.75vw;
+	}
+	h2 {
+		font-size: 3.5vw;
+	}
+	h3, h4, h5 {
+		font-size: 3.2vw;
+	}
+	ul, a.contact {
+		font-size: 2.75vw;
+	}
+	.datetime, .technologies, .address {
+		font-size: 2vw;
 	}
 }
