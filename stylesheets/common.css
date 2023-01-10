@@ -6,6 +6,8 @@
   --primary: #000;
   --border: #000;
   --blub: 10%;
+  --heading-font: Righteous, Helvetica, Arial, sans;
+  --body-font: Jost, Helvetica, Arial, sans;
 }
 
 @media (prefers-color-scheme: light) {
@@ -29,7 +31,7 @@
 body {
   text-align: left;
   background-color: var(--background);
-  font-family: Helvetica;
+  font-family: var(--body-font);
 }
 
 header {
@@ -39,6 +41,7 @@ header {
 h1 {
   margin: 0em;
   margin-top: auto;
+  font-family: var(--heading-font);
 }
 header {
   border-bottom: solid 4px var(--border-secondary);
