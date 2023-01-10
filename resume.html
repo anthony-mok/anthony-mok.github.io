@@ -3,6 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=us-ascii" / >
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous">
 	<link type="text/css" rel="stylesheet" media="screen" href="stylesheets/resume.css" />
 	<link type="text/css" rel="stylesheet" media="print"  href="stylesheets/resume-print.css" />
 	<title>Anthony Mok - Resume</title>
@@ -24,10 +26,39 @@
 </div></header><div id="content">
 <section id="statement">
 	<h2>Personal Statement</h2>
-	<p>I am eager to learn new computer science theory and software development skills in both self-study and professional positions. I am not afraid to start up new projects to improve familiarity with new languages, frameworks, or concepts.</p>
+	<p>I am eager to learn new computer science theory and software development skills in both self-study and professional positions. I am not afraid to start up new projects to improve familiarity with new languages, frameworks, documentation or concepts.</p>
 </section>
 <section id="employment">
 	<h2>Work Experience</h2>
+	<article>
+		<h3 id="most_recent_employment">
+			Amazon.com, Inc.
+			<a href="http://amazon.com/" target="_blank"><img src="images/link.png" class="icon" alt="link to Amazon.com"/></a>
+		</h3>
+		<h4>Software Development Engineer [WIP]</h4>
+		<div class="datetime"><time datetime="2012-06-25">June 2012</time> &ndash; <time>Present</time></div>
+		<div class="address">
+		440 Terry Ave, North<br />
+		Seattle, Washington, USA<br />
+		98109
+		</div>
+		<h5>Data Lake</h5>
+		<ul>
+			<li>Developed a REST service to catalog datasets for Amazon's internal (business) Data Lake</li>
+			<li>Scaled append-only data store to support thousands of teams, millions of customers and over 1 EB of data</li>
+			<li>Owned and led service long-term (5+ years) across multiple managers and organizational shifts</li>
+			<li>Advocated for and established low-friction processes to keep up-to-date documentation</li>
+		</ul>
+		<h5>Task Scheduler</h5>
+		<ul>
+			<li>Designed and developed time-of-day-based scheduler to trigger millions of jobs per hour with a 5 minute SLA</li>
+			<li>Supported edge cases like multiple timezones, absence of midnight and Daylight Savings</li>
+		</ul>
+		<h5>Network-Regionalized User Authorization</h5>
+		<ul>
+			<li>Created REST service as an alternative authorization mechanism to Kerberos</li>
+		</ul>
+	</article>
 	<article>
 		<h3 id="most_recent_employment">
 			Amazon.com, Inc.
@@ -57,7 +88,7 @@
 			Toronto, ON, Canada<br />
 			M5E 1K3
 		</div>
-		<div class="datetime"><time datetime="2010-05-03">May.</time> &ndash; <time datetime="2010-08-27">Aug. 2010</time>, <time datetime="2011-01-03">Jan.</time> &ndash; <time datetime="2011-04-22">Apr. 2011</time></div>
+		<div class="datetime"><time datetime="2010-05-03">May</time> &ndash; <time datetime="2010-08-27">Aug. 2010</time>, <time datetime="2011-01-03">Jan.</time> &ndash; <time datetime="2011-04-22">Apr. 2011</time></div>
 		<ul>
 			<li>Led the development of core web app features using Ruby on Rails, MySQL, and Solr in an Agile environment</li>
 			<li>Designed and implemented distributed system to optimize real-time crawling</li>
@@ -70,25 +101,35 @@
 	<h2>Education</h2>
 	<article>
 		<h3>University of Waterloo</h3>
-			<h4>Bachelor of Computer Science, Co-op Program</h4>
-			<div class="datetime"><time datetime="2007-09-04">Sep. 2007</time> &ndash; <time datetime="2012-04-14">Apr. 2012</time></div>
+    <h4>Bachelor of Computer Science, Co-op Program</h4>
+    <div class="datetime"><time datetime="2007-09-04">Sep. 2007</time> &ndash; <time datetime="2012-04-14">Apr. 2012</time></div>
 	</article>
 </section>
 <section id="skills">
 	<h2>Skills</h2>
 	<article>
-		<h3>Markup Languages</h3>
-		<ul>
-			<li>CSS</li>
-			<li>HTML</li>
-			<li>LaTeX</li>
-		</ul>
-	</article>
-	<article>
 		<h3>Programming Languages</h3>
 		<ul>
 			<li>Java</li>
-			<li>JavaScript</li>
+			<li>JavaScript <span class="caveat">(if I have to)</span></li>
+			<li>Ruby <span class="caveat">(casual scripting)</span></li>
+			<li>Scala</li>
+			<li>TypeScript</li>
+		</ul>
+	</article>
+	<article>
+		<h3>Technologies</h3>
+		<ul>
+			<li>AWS <span class="caveat">(API Gateway, Athena, CDK, CloudFormation, CloudWatch, DynamoDB, Glue, LakeFormation, Lambda, S3, SNS, SQS)</span></li>
+			<li>Spark</li>
+		</ul>
+	</article>
+	<article>
+		<h3>Miscellaneous</h3>
+		<ul>
+			<li>CSS</li>
+			<li>HTML</li>
+			<li>Markdown</li>
 		</ul>
 	</article>
 </section>
