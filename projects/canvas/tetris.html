@@ -13,13 +13,14 @@
 	.wrapper {
 		height: 50vh;
 		display: grid;
-		grid-template-columns: 1fr 3fr 1fr;
+		grid-template-columns: 1fr 2fr 1fr;
 		grid-auto-rows: minmax(auto);
 		gap: 1em 0;
 	}
 	header {
 		grid-row: 1;
 		grid-column: 2;
+		position: relative;
 	}
 body {
 	text-align: center;
@@ -33,34 +34,77 @@ body {
 #controls {
 	margin: 0 auto;
 	width: 100%;
-	background: #CCCCCC;
-	background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#999));
-	background: -moz-linear-gradient(top,  #ccc,  #999);
-	border: solid 1px #555;
 	grid-row: 3;
 	grid-column: 2;
-}
-#controls input {
 	text-align: center;
 }
+
+	.home {
+		font-size: 1.8em;
+		margin: 0.2em 0.4em 0.0em;
+		text-decoration: none;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+
 #controls button {
-	border: 0;
-	border-radius: 3px;
-	background: #444444;
-	color: white;
-	padding: 4px 6px;
-	font-weight: bold;
-	margin: 5px;
-	background: -webkit-gradient(linear, left top, left bottom, from(#acf), to(#06a));
-	background: -moz-linear-gradient(top,  #acf,  #06a);
-	border: solid 1px #06a;
-	border-bottom: solid 1px #acf;
-	border-right: solid 1px #acf;
+  display: inline-block;
+  border: solid 1px var(--border);
+  margin: 0.4em 0;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: var(--background);
+  background-color: var(--border-secondary);
 }
 #controls button:hover {
-	cursor: pointer;
-	background: #27c;
+  background-color: var(--border);
 }
+
+#controls button:hover {
+	cursor: pointer;
+}
+	aside {
+		grid-row: 2;
+		grid-column: 3;
+		padding: 0 1em;
+    text-align: left;
+	}
+
+.home {
+  font-size: 1.8em;
+  margin: 0.2em 0.4em 0.0em;
+  text-decoration: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+	@media (max-width: 1024px) {
+		.wrapper {
+				grid-template-columns: 15% 1fr 15%;
+		}
+		header {
+			grid-column: 2;
+		}
+		#example {
+			grid-column: 2;
+			grid-row: 2;
+			min-height: 10em;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.wrapper {
+			grid-template-columns: 10% 1fr 10%;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.wrapper {
+			grid-template-columns: 5% 1fr 5%;
+		}
+	}
 </style>
 </head>
 
@@ -68,7 +112,7 @@ body {
 
 <div class="wrapper">
 <header>
-<h1>Tetrominoes</h1>
+<a href="../../index.html" alt="Home" class="home">&#8962;</a><h1>Tetrominoes</h1>
 </header>
 
 	<canvas id="canvas" WIDTH="600" HEIGHT="600"  tabindex="1"></canvas>
@@ -76,6 +120,11 @@ body {
 		<button type="button" onclick="game.reset()">Restart</button>
 	</div>
 
+<aside class="commentary">
+Tetris implementation in JavaScript. Just for fun.
+
+<time datetime="2012-05-0">2012-05-05</time>
+</aside>
 </div>
 </body>
 
@@ -200,9 +249,11 @@ tetris_pieces.push(new TetrisPiece('#00f', ['.x', '.x', 'xx']));
 tetris_pieces.push(new TetrisPiece('#f0f', ['.x.', 'xxx']));
 
 var game = new TetrisGame();
-var background = getComputedStyle(document.body).getPropertyValue('--background');
-var borderColour = getComputedStyle(document.body).getPropertyValue('--border');
-var primaryColour = getComputedStyle(document.body).getPropertyValue('--primary');
+var style = getComputedStyle(document.body);
+var background = style.getPropertyValue('--background');
+var secondaryBackground = style.getPropertyValue('--background-secondary')
+var borderColour = style.getPropertyValue('--border');
+var primaryColour = style.getPropertyValue('--primary');
 
 function setLengths() {
 	var r = context.canvas.width / (WIDTH + 2);
@@ -373,13 +424,13 @@ function TetrisGame() {
 	};
 
 	this.drawHud = function() {
-		context.fillStyle = '#eee';
+		context.fillStyle = background;
 		context.fillRect(left_offset, top_offset, WIDTH*box_size, HEIGHT*box_size);
-		context.fillStyle = '#ccc';
+		context.fillStyle = secondaryBackground;
 		context.fillRect(left_offset, top_offset, WIDTH*box_size, box_size*BUFFER);
-		context.strokeStyle = '#000';
+		context.strokeStyle = borderColour;
 		context.strokeRect(left_offset, top_offset, WIDTH*box_size, HEIGHT*box_size);
-		context.fillStyle = '#000000';
+		context.fillStyle = borderColour
 		context.fillText(this.score, context.canvas.width - 10, 10);
 	};
 	

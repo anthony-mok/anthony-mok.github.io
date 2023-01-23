@@ -17,7 +17,7 @@
 		grid-column: 3;
 		border: solid 1px var(--border-secondary);
 		background: var(--background-secondary);
-padding: 0 0.5em;
+		padding: 0 0.5em;
 	}
 	#control_box ul {
 		margin-left: 0px;
@@ -49,6 +49,14 @@ padding: 0 0.5em;
 		grid-column: 2 / 4;
 		background: var(--background);
 	}
+	.home {
+		font-size: 1.8em;
+		margin: 0.2em 0.4em 0.0em;
+		text-decoration: none;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
 
 	.wrapper {
 		height: 50vh;
@@ -60,6 +68,7 @@ padding: 0 0.5em;
 	header {
 		grid-row: 1;
 		grid-column: 2 / 4;
+		position: relative;
 	}
 	aside {
 		grid-row: 2;
@@ -111,7 +120,7 @@ padding: 0 0.5em;
 
 <div class="wrapper">
 <header>
-<h1>Stirling Engine</h1>
+<a href="../../index.html" alt="Home" class="home">&#8962;</a><h1>Stirling Engine</h1>
 </header>
 
 <canvas id="example" width="600" height="400">
