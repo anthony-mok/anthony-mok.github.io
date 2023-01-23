@@ -55,7 +55,7 @@ img {
 #outer {
 	height: 100vh;
 	display: grid;
-	grid-template-columns: 2fr 5fr 1fr;
+	grid-template-columns: 1fr minmax(40%, 800px) 1fr;
 	gap: 1em;
 }
 header {
@@ -213,7 +213,7 @@ nav, ul, a.contact {
 	font-size: x-small;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1350px) {
 	body {
 		background: var(--secondary-background);
 	}
@@ -230,6 +230,24 @@ nav, ul, a.contact {
 		header .inner nav {
 			display: none;
 		}
+	body {
+		font-size: 1.5vw;
+	}
+	h1 {
+		font-size: 2.25vw;
+	}
+	h2, h3, h4, h5 {
+		font-size: 1.5vw;
+	}
+	ul, a.contact {
+		font-size: 1.2vw;
+	}
+	.datetime, .technologies, .address {
+		font-size: 1vw;
+	}
+}
+
+@media (max-width: 1024px) {
 	body {
 		font-size: 2vw;
 	}

@@ -100,6 +100,9 @@ li, article {
 .datetime {
 	text-transform: uppercase;
 }
+#todo {
+	display: none !important;
+}
 
 article {
 	margin-bottom: 0.5em;
@@ -127,7 +130,7 @@ article {
 	article > ul {
 		margin-top: 0.5em;
 		padding-right: 3%;
-		width: 63%;
+		width: auto;
 	}
 	article li {
 		list-style: square;
